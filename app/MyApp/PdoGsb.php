@@ -171,11 +171,10 @@ class PdoGsb{
      * retourne un tableau associatif de clé un mois -aaaamm- et de valeurs l'année et le mois correspondant
      */
 	public function getLesMoisDisponibles($idVisiteur){
-		$req = "select fichefrais.mois as mois from  fichefrais where fichefrais.idvisiteur ='$idVisiteur'
-		order by fichefrais.mois desc ";
+		$req = "select fichefrais.mois as mois from fichefrais where fichefrais.idvisiteur = $idVisiteur order by fichefrais.mois desc ";
 		$res = $this->monPdo->query($req);
 		$lesMois =array();
-		$laLigne = $res->fetch();
+		$laLigne = $res->fetchAll();
 		while($laLigne != null)	{
 			$mois = $laLigne['mois'];
 			$numAnnee =substr( $mois,0,4);
@@ -185,7 +184,7 @@ class PdoGsb{
 		    "numAnnee"  => "$numAnnee",
 			"numMois"  => "$numMois"
              );
-			$laLigne = $res->fetch();
+			$laLigne = $res->fetchAll();
 		}
 		return $lesMois;
 	}
